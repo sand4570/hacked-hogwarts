@@ -361,8 +361,15 @@ function displayStudent(student) {
   clone.querySelector("[data-field=blood-purity]").textContent =
     student.bloodPurity;
   clone.querySelector("[data-field=house]").textContent = student.house;
-  clone.querySelector("[data-field=responsibility]").textContent =
-    student.responsibility;
+
+  if (student.responsibility === "Both") {
+    clone.querySelector("[data-field=responsibility]").textContent =
+      "Prefect, Inquisitor";
+  } else {
+    clone.querySelector("[data-field=responsibility]").textContent =
+      student.responsibility;
+  }
+
   clone.querySelector("[data-field=student-status]").textContent =
     student.status;
 
@@ -443,6 +450,13 @@ function displayPopUp() {
       "Add responsibility";
     document.querySelector("#inquisitor-button").textContent =
       "Add responsibility";
+  } else if (thisStudent.responsibility === "Both") {
+    document.querySelector("#prefect").textContent = "Active";
+    document.querySelector("#inquisitor").textContent = "Active";
+    document.querySelector("#prefect-button").textContent =
+      "Revoke responsibility";
+    document.querySelector("#inquisitor-button").textContent =
+      "Revoke responsibility";
   } else if (thisStudent.responsibility === "Prefect") {
     document.querySelector("#prefect").textContent = "Active";
     document.querySelector("#inquisitor").textContent = "Not set";
@@ -468,16 +482,25 @@ function createPrefect() {
 
   let messege;
 
-  if (isPrefect) {
+  if (thisStudent.responsibility === "Prefect") {
     thisStudent.responsibility = "None";
     messege = "Prefect privilige has been removed";
-  } else if (!isPrefect) {
-    thisStudent.responsibility = "Prefect";
+  } else if (thisStudent.responsibility === "Both") {
+    thisStudent.responsibility = "Inquisitor";
+    messege = "Prefect privilige has been removed";
+  } else if (
+    thisStudent.responsibility === "None" ||
+    thisStudent.responsibility === "Inquisitor"
+  ) {
     const allHouseStudents = allStudents.filter(filterHouse);
     const allResponsStudents = allHouseStudents.filter(filterRespons);
 
     if (allResponsStudents.length <= 2) {
-      thisStudent.responsibility = "Prefect";
+      if (thisStudent.responsibility === "None") {
+        thisStudent.responsibility = "Prefect";
+      } else {
+        thisStudent.responsibility = "Both";
+      }
       messege = "Prefect privilige has been set";
     } else {
       messege =
@@ -507,20 +530,33 @@ function createInquisitor() {
   console.log("createInquisitor");
 
   const isInquisitor = thisStudent.responsibility === "Inquisitor";
+  const isBoth = thisStudent.responsibility === "Both";
   const blood = thisStudent.bloodPurity;
   const house = thisStudent.house;
 
   let messege;
 
-  if (isInquisitor) {
-    thisStudent.responsibility = "None";
+  if (isInquisitor || isBoth) {
+    if (isInquisitor) {
+      thisStudent.responsibility = "None";
+    } else {
+      thisStudent.responsibility = "Prefect";
+    }
     messege = "Inquisitor privilige has been removed";
   } else if (!isInquisitor) {
     if (blood === "Pure") {
-      thisStudent.responsibility = "Inquisitor";
+      if (thisStudent.responsibility === "Prefect") {
+        thisStudent.responsibility = "Both";
+      } else {
+        thisStudent.responsibility = "Inquisitor";
+      }
       messege = "Inquisitor privilige has been set";
     } else if (house === "Slytherin") {
-      thisStudent.responsibility = "Inquisitor";
+      if (thisStudent.responsibility === "Prefect") {
+        thisStudent.responsibility = "Both";
+      } else {
+        thisStudent.responsibility = "Inquisitor";
+      }
       messege = "Inquisitor privilige has been set";
     } else {
       messege =
