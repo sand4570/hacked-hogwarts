@@ -1,0 +1,511 @@
+body {
+  background-color: #00122e;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.buttons {
+  height: 40px;
+  margin: 10px;
+  background-color: #d6d6d6;
+  border: solid 1px;
+  border-color: #bf890e;
+  border-radius: 5px;
+}
+
+.buttons:hover {
+  background-color: #bfbfbf;
+}
+
+.esc {
+  float: right;
+  height: 30px;
+  width: 30px;
+  background-color: #d6d6d6;
+  border: solid 1px;
+  border-color: #bf890e;
+  border-radius: 5px;
+}
+
+.esc:hover {
+  background-color: #bfbfbf;
+}
+
+.blackout {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: black;
+  opacity: 20%;
+}
+
+/** Stars **/
+
+.star {
+  background-color: #fff6c4;
+  border-radius: 50%;
+  position: absolute;
+}
+
+.star-class-1 {
+  animation-name: star-flicker;
+  animation-duration: 5s;
+  animation-iteration-count: infinite;
+}
+
+.star-class-2 {
+  animation-name: star-flicker;
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+}
+
+.star-class-3 {
+  animation-name: star-flicker;
+  animation-duration: 6s;
+  animation-iteration-count: infinite;
+}
+
+.star-class-4 {
+  animation-name: star-flicker;
+  animation-duration: 7s;
+  animation-iteration-count: infinite;
+}
+
+#star-1 {
+  height: 10px;
+  width: 10px;
+  top: 12vh;
+  left: 30vw;
+}
+
+#star-2 {
+  height: 3px;
+  width: 3px;
+  top: 13vh;
+  right: 20vw;
+}
+
+#star-3 {
+  height: 5px;
+  width: 5px;
+  top: 20vh;
+  left: 10vw;
+}
+
+#star-4 {
+  height: 7px;
+  width: 7px;
+  top: 17vh;
+  right: 35vw;
+}
+
+#star-5 {
+  height: 7px;
+  width: 7px;
+  top: 25vh;
+  left: 20vw;
+}
+
+#star-6 {
+  height: 10px;
+  width: 10px;
+  top: 25vh;
+  right: 25vw;
+}
+
+#star-7 {
+  height: 3px;
+  width: 3px;
+  top: 10vh;
+  left: 17vw;
+}
+
+#star-8 {
+  height: 5px;
+  width: 5px;
+  top: 25vh;
+  right: 10vw;
+}
+
+#star-9 {
+  height: 4px;
+  width: 4px;
+  top: 28vh;
+  left: 35vw;
+}
+
+#star-10 {
+  height: 6px;
+  width: 6px;
+  top: 6vh;
+  right: 11vw;
+}
+
+#star-11 {
+  height: 10px;
+  width: 10px;
+  top: 6vh;
+  left: 4vw;
+}
+
+#star-12 {
+  height: 4px;
+  width: 4px;
+  top: 8vh;
+  right: 28vw;
+}
+
+#star-13 {
+  height: 4px;
+  width: 4px;
+  top: 32vh;
+  left: 5vw;
+}
+
+#star-14 {
+  height: 8px;
+  width: 8px;
+  top: 15vh;
+  right: 5vw;
+}
+
+#star-15 {
+  height: 4px;
+  width: 4px;
+  top: 7vh;
+  left: 38vw;
+}
+
+#star-16 {
+  height: 3px;
+  width: 3px;
+  top: 8vh;
+  right: 38vw;
+}
+
+#star-17 {
+  height: 5px;
+  width: 5px;
+  top: 31vh;
+  left: 26vw;
+}
+
+#star-18 {
+  height: 4px;
+  width: 4px;
+  top: 33vh;
+  right: 38vw;
+}
+
+#star-19 {
+  height: 6px;
+  width: 6px;
+  top: 22vh;
+  left: 2vw;
+}
+
+#star-20 {
+  height: 6px;
+  width: 6px;
+  top: 31vh;
+  right: 17vw;
+}
+
+@keyframes star-flicker {
+  0% {
+    transform: scale(1, 1);
+    opacity: 100%;
+  }
+  50% {
+    transform: scale(0.7, 0.7);
+    opacity: 50%;
+  }
+  100% {
+    transform: scale(1, 1);
+    opacity: 100%;
+  }
+}
+
+/** Stars END **/
+
+/** Top logo **/
+#top-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+#hogwarts-logo {
+  height: 270px;
+  width: 240px;
+  background-image: url(Grafics/hogwarts.svg);
+  background-repeat: no-repeat;
+}
+
+/** Top logo END **/
+
+/** List of students **/
+
+/*** Filters ***/
+
+#filter-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.filter:focus-visible {
+  outline: none;
+}
+
+#student-table .sorted-by {
+  text-decoration: underline;
+}
+
+#student-table .sorted-by[data-sort-direction="asc"]::after {
+  content: " ▽";
+  font-size: 10px;
+}
+
+#student-table .sorted-by[data-sort-direction="desc"]::after {
+  content: " △";
+  font-size: 10px;
+}
+
+#seach-input {
+  height: 40px;
+  margin: 10px;
+  background-color: #d6d6d6;
+  border: solid 1px;
+  border-color: #bf890e;
+  border-radius: 5px;
+  margin-right: 0;
+}
+
+#seach-input:focus-visible {
+  outline: none;
+}
+
+#seach-button {
+  margin-left: 0;
+}
+
+/*** Filters END ***/
+
+#list-wrapper {
+  background-color: #d6d6d6;
+  width: 90vw;
+  margin: auto;
+  margin-bottom: 50px;
+  border: solid 5px;
+  border-color: #bf890e;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+table {
+  border: 1px solid #00122e;
+  border-collapse: collapse;
+  width: 100%;
+  text-align: left;
+  padding: 1px;
+}
+
+th {
+  margin-left: 1px;
+  border-bottom: 1px solid #00122e;
+  border-collapse: collapse;
+  background-color: #bfbfbf;
+}
+
+tr:nth-child(even) {
+  background: #bfbfbf;
+}
+
+/** List of students END **/
+
+/** count of students **/
+
+#count-wrapper {
+  border-color: #bf890e;
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-around;
+}
+
+#set-status-table th,
+#set-status-table td {
+  padding-left: 5px;
+}
+
+/** count of students END **/
+
+/** Student popup **/
+
+#popup {
+  position: fixed;
+  background-color: #d6d6d6;
+  width: 80vw;
+  height: 80vh;
+  left: 9vw;
+  top: 8vh;
+  padding: 20px;
+}
+
+.gryffindor-border {
+  border: solid 5px;
+  border-radius: 10px;
+  border-color: #bd1717;
+}
+
+.slytherin-border {
+  border: solid 5px;
+  border-radius: 10px;
+  border-color: #00632f;
+}
+
+.ravenclaw-border {
+  border: solid 5px;
+  border-radius: 10px;
+  border-color: #005896;
+}
+
+.hufflepuff-border {
+  border: solid 5px;
+  border-radius: 10px;
+  border-color: #f7d955;
+}
+
+.no-house-border {
+  border: solid 5px;
+  border-radius: 10px;
+  border-color: #bf890e;
+}
+
+#static-info-wrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+#house-logo {
+  height: 100px;
+  width: 95px;
+  background-repeat: no-repeat;
+  margin-right: 20px;
+  margin-top: 10px;
+}
+
+.gryffindor {
+  background-image: url(Grafics/gryffindor-crest.svg);
+}
+
+.hufflepuff {
+  background-image: url(Grafics/hufflepuff-crest.svg);
+}
+
+.ravenclaw {
+  background-image: url(Grafics/ravenclaw-crest.svg);
+}
+
+.slytherin {
+  background-image: url(Grafics/slytherin-crest.svg);
+}
+
+.no-house {
+  background-image: url(Grafics/no_house.svg);
+}
+
+#image {
+  width: 20vw;
+  margin-right: 20px;
+  margin-bottom: 60px;
+}
+
+#set-status-table {
+  width: 60vw;
+  margin-left: 10vw;
+}
+
+.add-revoke {
+  float: right;
+  height: 20px;
+  margin: 10px;
+  padding: 5px;
+  background-color: #d6d6d6;
+  border: solid 1px;
+  border-color: #bf890e;
+  border-radius: 5px;
+}
+
+.add-revoke:hover {
+  background-color: #bfbfbf;
+}
+
+#tr-popup {
+  background-color: #d6d6d6;
+}
+
+.button-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+#is-expelled {
+  position: fixed;
+  top: 55vh;
+  left: 28vw;
+  font-size: 5rem;
+}
+
+/** Student popup END **/
+
+/** User and warning messege **/
+
+#user-messege {
+  position: fixed;
+  background-color: #d6d6d6;
+  width: 60vw;
+  height: 40vh;
+  left: 20vw;
+  top: 30vh;
+  border: solid 5px;
+  border-color: #bf890e;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+#warning-messege {
+  position: fixed;
+  background-color: #d6d6d6;
+  width: 60vw;
+  height: 40vh;
+  left: 20vw;
+  top: 30vh;
+  border: solid 5px;
+  border-color: #bf890e;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.messege-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+#wrap-warn {
+  height: 75%;
+}
+
+.p-messege {
+  font-size: 2rem;
+  text-align: center;
+  margin-left: 2vw;
+  margin-right: 2vw;
+}
+
+/** User and warning messege END **/

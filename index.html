@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hogwarts student list</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div id="star-1" class="star star-class-1"></div>
+    <div id="star-2" class="star star-class-1"></div>
+    <div id="star-3" class="star star-class-1"></div>
+    <div id="star-4" class="star star-class-1"></div>
+    <div id="star-5" class="star star-class-1"></div>
+    <div id="star-6" class="star star-class-2"></div>
+    <div id="star-7" class="star star-class-2"></div>
+    <div id="star-8" class="star star-class-2"></div>
+    <div id="star-9" class="star star-class-2"></div>
+    <div id="star-10" class="star star-class-2"></div>
+    <div id="star-11" class="star star-class-3"></div>
+    <div id="star-12" class="star star-class-3"></div>
+    <div id="star-13" class="star star-class-3"></div>
+    <div id="star-14" class="star star-class-3"></div>
+    <div id="star-15" class="star star-class-3"></div>
+    <div id="star-16" class="star star-class-4"></div>
+    <div id="star-17" class="star star-class-4"></div>
+    <div id="star-18" class="star star-class-4"></div>
+    <div id="star-19" class="star star-class-4"></div>
+    <div id="star-20" class="star star-class-4"></div>
+
+    <div id="top-wrapper">
+        <div id="hogwarts-logo"></div>
+    </div>
+
+    <div id="list-wrapper">
+
+        <div id="filter-wrapper">
+            <select name="filter-house" id="filter-house" class="filter buttons">
+                <option value="all">All houses</option>
+                <option value="gryffindor">Gryffindor</option>
+                <option value="hufflepuff">Hufflepuff</option>
+                <option value="ravenclaw">Ravenclaw</option>
+                <option value="slytherin">Slytherin</option>
+            </select>
+            <select name="filter-blod-purity" id="filter-blod-purity" class="filter buttons">
+                <option value="all">All purities</option>
+                <option value="pure">Pure blod</option>
+                <option value="half">Half blod</option>
+                <option value="muggler">Muggler</option>
+            </select>
+            <select name="filter-responsibility" id="filter-responsibility" class="filter buttons">
+                <option value="all">All responsibilities</option>
+                <option value="prefect">Prefects</option>
+                <option value="inquisitor">Inquisitors</option>
+            </select>
+            <select name="filter-student-status" id="filter-student-status" class="filter buttons">
+                <option value="active">Active students</option>
+                <option value="expelled">Expelled students</option>
+            </select>
+            <div id="seach-wrapper">
+                <input type="text" id="seach-input" placeholder="Seach here">
+                <button id="seach-button" class="buttons">Seach</button>
+            </div>
+        </div>
+        <table id="student-table">
+            <thead>
+                <tr>
+                    <th data-action="sort" data-sort-direction="asc" data-sort="id">Id</th>
+                    <th data-action="sort" data-sort-direction="asc" data-sort="firstName">First name</th>
+                    <th data-action="sort" data-sort-direction="asc" data-sort="middleName">Middle name</th>
+                    <th data-action="sort" data-sort-direction="asc" data-sort="lastName">Last name</th>
+                    <th data-action="sort" data-sort-direction="asc" data-sort="gender">Gender</th>
+                    <th data-action="sort" data-sort-direction="asc" data-sort="blood">Blood purity</th>
+                    <th data-action="sort" data-sort-direction="asc" data-sort="house">House</th>
+                    <th data-action="sort" data-sort-direction="asc" data-sort="responsibility">Responsibility</th>
+                    <th data-action="sort" data-sort-direction="asc" data-sort="status">Student status</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+
+        <template id="student">
+            <tr class="table-row" data-action="pop-up" data-id="">
+                <td data-field="id">ID</td>
+                <td data-field="first-name">FIRSTNAME</td>
+                <td data-field="middle-name">MIDDLENAME</td>
+                <td data-field="last-name">LASTNAME</td>
+                <td data-field="gender">GENDER</td>
+                <td data-field="blood-purity">BLOODPURITY</td>
+                <td data-field="house">HOUSE</td>
+                <td data-field="responsibility">RESPONSIBILITY</td>
+                <td data-field="student-status">ACTIVE</td>
+            </tr>
+        </template>
+        
+        <h2>Number of students</h2>
+
+        <div id="count-wrapper">
+            <div class="counters">
+                <p>Students</p>
+                <p id="all-students"></p>
+            </div>
+            <div class="counters">
+                <p>Displayed students</p>
+                <p id="disp-students"></p>
+            </div>
+            <div class="counters">
+                <p>Gryffindor students</p>
+                <p id="griff-students"></p>
+            </div>
+            <div class="counters">
+                <p>Slytherin students</p>
+                <p id="slyth-students"></p>
+            </div>
+            <div class="counters">
+                <p>Hufflepuff students</p>
+                <p id="huff-students"></p>
+            </div>
+            <div class="counters">
+                <p>Ravenclaw students</p>
+                <p id="raven-students"></p>
+            </div>
+            <div class="counters">
+                <p>Active students</p>
+                <p id="act-students"></p>
+            </div>
+            <div class="counters">
+                <p>Expelled students</p>
+                <p id="exp-students"></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="popup-bacground" class="blackout hidden"></div>
+
+    <div id="popup" class="hidden">
+        <button id="close-popup" class="esc">✕</button>
+        <div id="static-info-wrapper">
+            <img id="image" src="" alt="Image of student">
+            <div id="house-logo" class=""></div>
+            <div id="info-wrapper">
+                <p id="name">Name:</p>
+                <p id="gender"></p>
+                <p id="blood-purity">Blood purity:</p>
+                <p id="house">House:</p>
+            </div>
+        </div>
+        <div id="changing-info-wrapper">
+            <table id="set-status-table">
+                <tr>
+                    <th>Responsibility</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+                <tr id="tr-popup">
+                    <td>Prefect</td>
+                    <td id="prefect">Not set</td>
+                    <td id="prefect-button" class="add-revoke"><button>add responsibility</button></td>
+                </tr>
+                <tr>
+                    <td>Inquisitor</td>
+                    <td id="inquisitor">Not set</td>
+                    <td id="inquisitor-button" class="add-revoke"><button>add responsibility</button></td>
+                </tr>
+            </table>
+            <div class="button-wrapper">
+                <button id="expell" class="buttons">Expell student</button>
+            </div>
+        </div>
+        <p id="is-expelled">Student is expelled</p>
+    </div>
+
+    <div id="messege-bacground" class="blackout hidden"></div>
+
+    <div id="warning-messege" class="hidden">
+        <div id="wrap-warn" class="messege-wrapper">
+            <p id="warning" class="p-messege"></p>
+        </div>
+        <div class="button-wrapper">
+            <button id="warning-continue" class="buttons">continue</button>
+            <button id="warning-cancel" class="buttons">Cancel</button>
+        </div>
+    </div>
+
+    <div id="user-messege" class="hidden">
+        <button id="close-messege" class="esc">✕</button>
+        <div class="messege-wrapper">
+            <p id="messege" class="p-messege"></p>
+        </div>  
+    </div>    
+
+    
+<script src="script.js"></script>
+
+</body>
+</html>
