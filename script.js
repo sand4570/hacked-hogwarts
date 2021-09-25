@@ -2,6 +2,8 @@
 
 window.addEventListener("DOMContentLoaded", start);
 
+let hack = false;
+
 //Global array to contain student objects
 let allStudents = [];
 let thisStudent = null;
@@ -35,10 +37,12 @@ const settings = {
 function start() {
   console.log("start");
 
+  //Call functions
   registerButtons();
   getJson();
 }
 
+//Adding event listeners to all the buttons on the page
 function registerButtons() {
   //Filter buttons
   const selectors = document.querySelectorAll("select");
@@ -62,29 +66,44 @@ function registerButtons() {
     .querySelector("#inquisitor-button")
     .addEventListener("click", createInquisitor);
 
+  //Expell button
   document.querySelector("#expell").addEventListener("click", displayWarning);
   document.querySelector("#warning-continue").addEventListener("click", () => {
     document.querySelector("#warning-messege").classList.add("hidden");
-    const messege = "Student Has been expelled";
-    displayMessege(messege);
-    expellStudent();
+    let messege;
+    //Making sure I cannot be exspelled when system is hacked
+    if (thisStudent.firstName === "Sandie") {
+      messege = "Error student CANNOT be expelled";
+      displayMessege(messege, true);
+    } else {
+      expellStudent();
+      messege = "Student Has been expelled";
+      displayMessege(messege);
+    }
   });
+
+  //Warning cancel and continue buttons
   document.querySelector("#warning-cancel").addEventListener("click", () => {
     document.querySelector("#warning-messege").classList.add("hidden");
-    document.querySelector("#messege-bacground").classList.add("hidden");
+    document.querySelector("#messege-background").classList.add("hidden");
   });
 
+  //Close messege button
   document.querySelector("#close-messege").addEventListener("click", () => {
     document.querySelector("#user-messege").classList.add("hidden");
-    document.querySelector("#messege-bacground").classList.add("hidden");
+    document.querySelector("#messege-background").classList.add("hidden");
   });
 
+  //Close popup button
   document.querySelector("#close-popup").addEventListener("click", () => {
     document.querySelector("#popup").classList = "hidden";
     document.querySelector("#popup-bacground").classList.add("hidden");
 
     createList();
   });
+
+  //Hack button
+  document.querySelector("#star-4").addEventListener("click", hackHogwarts);
 }
 
 function getJson() {
@@ -93,12 +112,14 @@ function getJson() {
   fetch("https://petlatkea.dk/2021/hogwarts/students.json")
     .then((response) => response.json())
     .then((jsonData) => {
+      //Call functions
       createStudentObject(jsonData);
       setBloodPurity();
       setImagePaths();
     });
 }
 
+//C
 function createStudentObject(json) {
   console.log("createStudentObject");
   console.log(json);
@@ -122,8 +143,6 @@ function createStudentObject(json) {
     student.responsibility = "None";
     student.status = "Active";
 
-    //TO DO BLODPURITY AND IMAGE
-
     allStudents.push(student);
 
     counter++;
@@ -134,7 +153,7 @@ function createStudentObject(json) {
 
 function setImagePaths() {
   allStudents.forEach((student) => {
-    if (checkLastnameDuplicate(student.lastName)) {
+    if (student.lastName) {
       student.image = imageFirstname(student.lastName, student.firstName);
     } else {
       student.image = imageFirstLetter(student.lastName, student.firstName);
@@ -358,8 +377,10 @@ function displayStudent(student) {
     student.middleName;
   clone.querySelector("[data-field=last-name]").textContent = student.lastName;
   clone.querySelector("[data-field=gender]").textContent = student.gender;
+
   clone.querySelector("[data-field=blood-purity]").textContent =
     student.bloodPurity;
+
   clone.querySelector("[data-field=house]").textContent = student.house;
 
   if (student.responsibility === "Both") {
@@ -529,6 +550,8 @@ function createPrefect() {
 function createInquisitor() {
   console.log("createInquisitor");
 
+  let currentStudent = thisStudent;
+
   const isInquisitor = thisStudent.responsibility === "Inquisitor";
   const isBoth = thisStudent.responsibility === "Both";
   const blood = thisStudent.bloodPurity;
@@ -544,20 +567,32 @@ function createInquisitor() {
     }
     messege = "Inquisitor privilige has been removed";
   } else if (!isInquisitor) {
-    if (blood === "Pure") {
+    if (blood === "Pure" || house === "Slytherin") {
       if (thisStudent.responsibility === "Prefect") {
         thisStudent.responsibility = "Both";
       } else {
         thisStudent.responsibility = "Inquisitor";
       }
       messege = "Inquisitor privilige has been set";
-    } else if (house === "Slytherin") {
-      if (thisStudent.responsibility === "Prefect") {
-        thisStudent.responsibility = "Both";
-      } else {
-        thisStudent.responsibility = "Inquisitor";
+
+      if (hack) {
+        const studentId = thisStudent.id;
+        setTimeout(() => {
+          const student = allStudents[studentId];
+          if (student.responsibility !== "Both") {
+            allStudents[studentId].responsibility = "None";
+          } else {
+            allStudents[studentId].responsibility = "Prefect";
+          }
+          messege = "Inquisitor has been removed";
+          displayMessege(messege);
+          if (document.querySelector("#popup").classList.contains("hidden")) {
+            createList();
+          } else {
+            displayPopUp();
+          }
+        }, 5000);
       }
-      messege = "Inquisitor privilige has been set";
     } else {
       messege =
         "This student does not qualify to become inquisitor, only pureblood student or students of house Slytherin can be inquisitors";
@@ -570,25 +605,89 @@ function createInquisitor() {
 
 function expellStudent() {
   console.log("expellStudent");
-  thisStudent.status = "Expelled";
-  thisStudent.house = "None";
-  thisStudent.responsibility = "None";
+
+  if (thisStudent.firstName === "Sandie") {
+  } else {
+    thisStudent.status = "Expelled";
+    thisStudent.house = "None";
+    thisStudent.responsibility = "None";
+  }
+
   console.log(thisStudent);
   displayPopUp(thisStudent);
 }
 
 function displayWarning() {
-  document.querySelector("#messege-bacground").classList.remove("hidden");
+  document.querySelector("#messege-background").classList.remove("hidden");
   console.log("displayWarning");
   document.querySelector("#warning-messege").classList.remove("hidden");
   document.querySelector("#warning").textContent =
     "Are you sure you want to expell this student, once done this action CANNOT be undon!";
 }
 
-function displayMessege(messege) {
-  document.querySelector("#messege-bacground").classList.remove("hidden");
-  document.querySelector("#user-messege").classList.remove("hidden");
+function displayMessege(messege, shake = false) {
+  const messageBackground = document.querySelector("#user-messege");
+  if (shake) {
+    messageBackground.classList.add("shake");
+    setTimeout(() => {
+      messageBackground.classList.remove("shake");
+    }, 1000);
+  }
+  document.querySelector("#messege-background").classList.remove("hidden");
+  messageBackground.classList.remove("hidden");
   document.querySelector("#messege").textContent = messege;
+}
+
+function hackHogwarts() {
+  console.log("hack Hogwarts");
+  hack = true;
+
+  createMe();
+  mixBlood();
+  removeInquisitor();
+  createList();
+}
+
+function createMe() {
+  console.log("Create me");
+  const student = Object.create(Student);
+
+  student.id = allStudents.length;
+  student.firstName = "Sandie";
+  student.middleName = "Neander";
+  student.lastName = "Petersen";
+  student.nickName = "";
+  student.gender = "Girl";
+  student.bloodPurity = "Muggle";
+  student.house = "Gryffindor";
+  student.responsibility = "None";
+  student.status = "Active";
+
+  allStudents.push(student);
+}
+
+function mixBlood() {
+  console.log("mixBlood");
+  const bloodArray = ["Half pure", "Muggle"];
+
+  allStudents.forEach((student) => {
+    if (student.bloodPurity === "Pure") {
+      student.bloodPurity =
+        bloodArray[Math.floor(Math.random() * bloodArray.length)];
+    } else {
+      student.bloodPurity = "Pure";
+    }
+  });
+}
+
+function removeInquisitor() {
+  allStudents.forEach((student) => {
+    if (student.responsibility === "Inquisitor") {
+      student.responsibility = "None";
+    } else if (student.responsibility === "Both") {
+      student.responsibility = "Prefect";
+    }
+  });
 }
 
 //Function calculating the firstname
